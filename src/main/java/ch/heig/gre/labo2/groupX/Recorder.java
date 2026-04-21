@@ -27,24 +27,43 @@ public class Recorder {
         return output;
     }
 
+    /**
+     * Add to the total number of vertext remove from the FIFO
+     * @param n
+     */
     public static void addVertexFromFIFO(int n){
         _nVertexFromFIFO+=n;
     }
     public static void addVertexFromFIFO(){
         addVertexFromFIFO(1);
     }
+
+    /**
+     * Add to the total number of edge compute
+     * @param n
+     */
     public static void addEdgeCompute(int n){
         _nEdgeCompute+=n;
     }
     public static void addEdgeCompute(){
         addEdgeCompute(1);
     }
+
+    /**
+     * Add to the total number of successful relaxation
+     * @param n
+     */
     public static void addRelaxation(int n){
         _nRelaxation+=n;
     }
     public static void addRelaxation(){
         addRelaxation(1);
     }
+
+    /**
+     * Add to the total number of vertext missing from the FIFO
+     * @param n
+     */
     public static void addVertextMissing(int n){
         _nVertextMissing+=n;
     }
