@@ -29,12 +29,22 @@ public class SPFA implements SSSPAlgorithm {
 
     while (!queue.isEmpty()){
       int vertice = queue.removeFirst();
+      Recorder.addVertexFromFIFO();
+
       for (WeightedDigraph.Edge edge : graph.getOutgoingEdges(vertice)){
         int distanceToOrigin = distances[edge.from()] + edge.weight();
+        Recorder.addEdgeCompute();
+
         if (distances[edge.to()] > distanceToOrigin){
+
+          Recorder.addRelaxation();
+
           distances[edge.to()] = distanceToOrigin;
           parent[edge.to()] = edge.from();
           if (!queue.contains(edge.to())){
+
+            Recorder.addVertextMissing();
+
             queue.addLast(edge.to());
             updates[edge.to()]++;
             if (updates[edge.to()] >= graph.getNVertices()){
