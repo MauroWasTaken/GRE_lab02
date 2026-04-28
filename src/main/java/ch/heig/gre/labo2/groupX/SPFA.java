@@ -14,13 +14,13 @@ public class SPFA implements SSSPAlgorithm {
 
   @Override
   public SSSPResult compute(WeightedDigraph graph, int from) {
-    int distances[] = new int[graph.getNVertices()];
-    int parent[] = new int[graph.getNVertices()];
-    int updates[] = new int[graph.getNVertices()];
+    int[] distances = new int[graph.getNVertices()];
+    int[] parent = new int[graph.getNVertices()];
+    int[] updates = new int[graph.getNVertices()];
     ArrayList<Integer> queue = new ArrayList<>(graph.getNVertices());
     for (int i = 0; i < graph.getNVertices(); i++){
       distances[i] = Integer.MAX_VALUE;
-      parent[i] = -1; // todo maybe changer par -1?
+      parent[i] = -1;
       updates[i] = 0;
     }
     distances[from] = 0;
@@ -38,18 +38,29 @@ public class SPFA implements SSSPAlgorithm {
             queue.addLast(edge.to());
             updates[edge.to()]++;
             if (updates[edge.to()] >= graph.getNVertices()){
-              ArrayList<Integer> values = new ArrayList<>();
-              int length = edge.weight();
-              int i = edge.from();
-              values.addLast(edge.to());
-              while( i != edge.to()){
-                values.addLast(i);
-                length += distances[i] - distances[parent[i]];
-                i = parent[i];
-              }
-              values.addLast(edge.to());
-              length += distances[i] - distances[parent[i]];
-              return new SSSPResult.NegativeCycle(values,length);
+              //init
+              ArrayList<Integer> values = new ArrayList<>(graph.getNVertices());
+              int current = edge.from();
+              values.addLast(edge.to()); // adds first value
+              // going up the tree until conflict
+              do {
+                values.addLast(current);
+                current = parent[current];
+              }while( !values.contains(current));
+              values.addLast(edge.to()); // adds last value
+
+              int length = 0; // init length
+              int i = 0;
+              do{
+                for(WeightedDigraph.Edge e :graph.getOutgoingEdges(values.get(i+1))){
+                  if(e.to() == values.get(i)){
+                    length += e.weight();
+                    break;
+                  }
+                }
+                i++;
+              }while(values.get(i) != values.get(0));
+              return new SSSPResult.NegativeCycle(values.subList(0,i + 1).reversed(),length);
             }
           }
         }
