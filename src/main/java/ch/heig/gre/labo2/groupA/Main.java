@@ -11,13 +11,13 @@ public class Main {
     public static final String DATA_PATH = "data/";
 
     public static void main(String[] args) throws IOException {
-
-        WeightedDigraph graph = WeightedDigraphReader.fromFile("data/reseau2.txt");
+        final int from = 0;
+        WeightedDigraph graph = WeightedDigraphReader.fromFile("data/reseau4.txt");
 
         System.out.println("SPFA");
         SPFA spfa = new SPFA();
         Recorder.start();                                       //start recording statistics
-        SSSPResult result = spfa.compute(graph, 0);
+        SSSPResult result = spfa.compute(graph, from);
         RecorderOutput out = Recorder.end();                    //save statistics
 
         // prints results
@@ -28,7 +28,7 @@ public class Main {
         System.out.println("SPFA SLF");
         SPFA_SLF slf = new SPFA_SLF();
         Recorder.start();                                       //start recording statistics
-        SSSPResult results = slf.compute(graph, 0);
+        SSSPResult results = slf.compute(graph, from);
         out = Recorder.end();                                   //save statistics
 
         // prints results

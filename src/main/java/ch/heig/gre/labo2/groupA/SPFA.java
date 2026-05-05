@@ -47,7 +47,7 @@ public class SPFA implements SSSPAlgorithm {
                         updates[edge.to()]++; // increases number of updates
                         if (updates[edge.to()] >= graph.getNVertices()) { // found negative cycle
                             //initialise the cycle
-                            ArrayList<Integer> values = new ArrayList<>(graph.getNVertices());
+                            ArrayList<Integer> values = new ArrayList<>(graph.getNVertices() + 1);
                             int current = edge.from();
                             values.addLast(edge.to()); // adds first value
                             // going up the tree until conflict
@@ -67,7 +67,7 @@ public class SPFA implements SSSPAlgorithm {
                                     }
                                 }
                                 i++;
-                            } while (values.get(i) != values.get(0));
+                            } while (values.get(i).intValue() != values.getFirst().intValue());
                             return new SSSPResult.NegativeCycle(values.subList(0, i + 1).reversed(), length); // returns the negative cycle
                         }
                     }
