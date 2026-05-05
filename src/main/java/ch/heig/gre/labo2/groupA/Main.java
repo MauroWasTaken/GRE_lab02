@@ -13,12 +13,11 @@ public class Main {
     public static void computeSPFA_test(String path) throws IOException {
         WeightedDigraph graph = WeightedDigraphReader.fromFile(path );
         System.out.println("File : "+path);
-
         // SPFA
         System.out.println("SPFA");
         SPFA spfa = new SPFA();
         Recorder.start();                                       //start recording statistics
-        SSSPResult result = spfa.compute(graph, 0);
+        SSSPResult result = spfa.compute(graph, from);
         RecorderOutput out = Recorder.end();                    //save statistics
 
         // prints results

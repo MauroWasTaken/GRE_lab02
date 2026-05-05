@@ -71,7 +71,7 @@ public class SPFA_SLF implements SSSPAlgorithm {
                                     }
                                 }
                                 i++;
-                            } while (values.get(i) != values.get(0));
+                            } while (values.get(i).intValue() != values.getFirst().intValue());
                             return new SSSPResult.NegativeCycle(values.subList(0, i + 1).reversed(), length);// returns the negative cycle
                         }
                     }
