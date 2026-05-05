@@ -38,7 +38,7 @@ public class SPFA_SLF implements SSSPAlgorithm {
                     parent[edge.to()] = edge.from();
                     if (!queue.contains(edge.to())) {
                         Recorder.addVertextMissing();
-                        if (distances[edge.to()] >= distances[edge.from()]) {
+                        if (!queue.isEmpty() && distances[edge.to()] >= distances[queue.getFirst()]) {
                             queue.addLast(edge.to());
                         } else {
                             queue.addFirst(edge.to());
