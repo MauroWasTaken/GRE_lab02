@@ -14,6 +14,7 @@ public class SPFA implements SSSPAlgorithm {
 
     @Override
     public SSSPResult compute(WeightedDigraph graph, int from) {
+        // initialisation
         int[] distances = new int[graph.getNVertices()];
         int[] parent = new int[graph.getNVertices()];
         int[] updates = new int[graph.getNVertices()];
@@ -28,26 +29,24 @@ public class SPFA implements SSSPAlgorithm {
         updates[from] = 1;
 
         while (!queue.isEmpty()) {
-            Recorder.addVertexFromFIFO();
+            Recorder.addVertexFromFIFO(); // increases addVertexFromFIFO counter
 
             for (WeightedDigraph.Edge edge : graph.getOutgoingEdges(queue.removeFirst())) {
                 int distanceToOrigin = distances[edge.from()] + edge.weight();
-                Recorder.addEdgeCompute();
+                Recorder.addEdgeCompute(); // increases addEdgeCompute counter
 
                 if (distances[edge.to()] > distanceToOrigin) {
+                    Recorder.addRelaxation(); // increases addRelaction counter
 
-                    Recorder.addRelaxation();
+                    distances[edge.to()] = distanceToOrigin; //updates distances
+                    parent[edge.to()] = edge.from(); // updates parent
+                    if (!queue.contains(edge.to())) { // if element isn't on the list
+                        Recorder.addVertextMissing(); //increases AddVertexMissing counter
 
-                    distances[edge.to()] = distanceToOrigin;
-                    parent[edge.to()] = edge.from();
-                    if (!queue.contains(edge.to())) {
-
-                        Recorder.addVertextMissing();
-
-                        queue.addLast(edge.to());
-                        updates[edge.to()]++;
-                        if (updates[edge.to()] >= graph.getNVertices()) {
-                            //init
+                        queue.addLast(edge.to());  //adds it to the end of the list
+                        updates[edge.to()]++; // increases number of updates
+                        if (updates[edge.to()] >= graph.getNVertices()) { // found negative cycle
+                            //initialise the cycle
                             ArrayList<Integer> values = new ArrayList<>(graph.getNVertices());
                             int current = edge.from();
                             values.addLast(edge.to()); // adds first value
@@ -57,7 +56,7 @@ public class SPFA implements SSSPAlgorithm {
                                 current = parent[current];
                             } while (!values.contains(current));
                             values.addLast(edge.to()); // adds last value
-
+                            // compute the length
                             int length = 0; // init length
                             int i = 0;
                             do {
@@ -69,12 +68,12 @@ public class SPFA implements SSSPAlgorithm {
                                 }
                                 i++;
                             } while (values.get(i) != values.get(0));
-                            return new SSSPResult.NegativeCycle(values.subList(0, i + 1).reversed(), length);
+                            return new SSSPResult.NegativeCycle(values.subList(0, i + 1).reversed(), length); // returns the negative cycle
                         }
                     }
                 }
             }
         }
-        return new SSSPResult.ShortestPathTree(from, distances, parent);
+        return new SSSPResult.ShortestPathTree(from, distances, parent); // returns the shortest path tree
     }
 }
