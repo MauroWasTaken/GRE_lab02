@@ -28,14 +28,18 @@ public class SPFA_SLF implements SSSPAlgorithm {
     updates[from] = 1;
 
     while (!queue.isEmpty()){
+      Recorder.addVertexFromFIFO();
       for (WeightedDigraph.Edge edge : graph.getOutgoingEdges(queue.removeFirst())){
         int distanceToOrigin = distances[edge.from()] + edge.weight();
+        Recorder.addEdgeCompute();
         if (distances[edge.to()] > distanceToOrigin){
+          Recorder.addRelaxation();
           distances[edge.to()] = distanceToOrigin;
           parent[edge.to()] = edge.from();
           if (!queue.contains(edge.to())){
+            Recorder.addVertextMissing();
             if (distances[edge.to()] >= distances[edge.from()]) {
-                queue.addLast(edge.to());
+              queue.addLast(edge.to());
             }else {
               queue.addFirst(edge.to());
             }

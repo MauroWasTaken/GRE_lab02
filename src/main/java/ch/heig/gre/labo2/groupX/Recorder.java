@@ -22,7 +22,7 @@ public class Recorder {
     }
 
     public static RecorderOutput end(){
-        RecorderOutput output = new RecorderOutput(_nVertexFromFIFO,_nEdgeCompute,_nRelaxation,_nVertextMissing,System.nanoTime()-_startTimeStamp);
+        RecorderOutput output = new RecorderOutput(_nVertexFromFIFO,_nEdgeCompute,_nRelaxation,_nVertextMissing,(System.nanoTime()-_startTimeStamp)/1000000);
         _startTimeStamp=-1;
         return output;
     }
