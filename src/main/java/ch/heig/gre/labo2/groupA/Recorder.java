@@ -1,4 +1,4 @@
-package ch.heig.gre.labo2.groupX;
+package ch.heig.gre.labo2.groupA;
 
 public class Recorder {
     private static int _nVertexFromFIFO = 0;

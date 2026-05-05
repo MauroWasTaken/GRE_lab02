@@ -1,4 +1,4 @@
-package ch.heig.gre.labo2.groupX;
+package ch.heig.gre.labo2.groupA;
 
 public record RecorderOutput(int nVertexFromFIFO,int nEdgeCompute,int nRelaxation,int nVertextMissing,long computeTime) {
     public String toString(){
