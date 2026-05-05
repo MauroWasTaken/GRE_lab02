@@ -17,7 +17,7 @@ public class Main {
         System.out.println("SPFA");
         SPFA spfa = new SPFA();
         Recorder.start();                                       //start recording statistics
-        SSSPResult result = spfa.compute(graph, from);
+        SSSPResult result = spfa.compute(graph, 0);
         RecorderOutput out = Recorder.end();                    //save statistics
 
         // prints results
