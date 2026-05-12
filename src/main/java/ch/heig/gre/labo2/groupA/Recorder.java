@@ -4,7 +4,7 @@ public class Recorder {
     private static int _nVertexFromFIFO = 0;
     private static int _nEdgeCompute = 0;
     private static int _nRelaxation = 0;
-    private static int _nVertextMissing = 0;
+    private static int _nEdgeMissing = 0;
     private static long _startTimeStamp = -1;
 
 
@@ -19,7 +19,7 @@ public class Recorder {
         _nVertexFromFIFO = 0;
         _nEdgeCompute = 0;
         _nRelaxation = 0;
-        _nVertextMissing = 0;
+        _nEdgeMissing = 0;
         _startTimeStamp = System.nanoTime();
     }
 
@@ -33,7 +33,7 @@ public class Recorder {
         if (_startTimeStamp == -1) {
             return null;
         }
-        RecorderOutput output = new RecorderOutput(_nVertexFromFIFO, _nEdgeCompute, _nRelaxation, _nVertextMissing, (double) (System.nanoTime() - _startTimeStamp) / 1000000);
+        RecorderOutput output = new RecorderOutput(_nVertexFromFIFO, _nEdgeCompute, _nRelaxation, _nEdgeMissing, (double) (System.nanoTime() - _startTimeStamp) / 1000000);
         _startTimeStamp = -1;
         return output;
     }
@@ -91,15 +91,15 @@ public class Recorder {
      *
      * @param n
      */
-    public static void addVertextMissing(int n) {
-        _nVertextMissing += n;
+    public static void addEdgeMissing(int n) {
+        _nEdgeMissing += n;
     }
 
     /**
      * Add 1 to the total number of vertext missing from the FIFO
      */
-    public static void addVertextMissing() {
-        addVertextMissing(1);
+    public static void addEdgeMissing() {
+        addEdgeMissing(1);
     }
 
 

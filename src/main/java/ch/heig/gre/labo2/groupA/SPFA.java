@@ -4,7 +4,9 @@ import ch.heig.gre.labo2.graph.SSSPAlgorithm;
 import ch.heig.gre.labo2.graph.SSSPResult;
 import ch.heig.gre.labo2.graph.WeightedDigraph;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Shortest Path Faster Algorithm (SPFA).
@@ -27,23 +29,25 @@ public class SPFA implements SSSPAlgorithm {
         int[] distances = new int[graph.getNVertices()];
         int[] parent = new int[graph.getNVertices()];
         int[] updates = new int[graph.getNVertices()];
-        boolean[] qContaines=new boolean[graph.getNVertices()];
-        ArrayList<Integer> queue = new ArrayList<>(graph.getNVertices());
+        boolean[] qcontaines=new boolean[graph.getNVertices()];
+        ArrayDeque<Integer> queue = new ArrayDeque<>(graph.getNVertices());
         for (int i = 0; i < graph.getNVertices(); i++) {
             distances[i] = Integer.MAX_VALUE;
             parent[i] = -1;
         }
         distances[from] = 0;
         queue.addLast(from);
+        qcontaines[from]=true;
         updates[from] = 1;
 
         while (!queue.isEmpty()) {
             Recorder.addVertexFromFIFO(); // increases addVertexFromFIFO counter
 
             int currentVertex = queue.removeFirst();
+            qcontaines[currentVertex]=false;
+
             for (WeightedDigraph.Edge edge : graph.getOutgoingEdges(currentVertex)) {
 
-                qContaines[currentVertex]=false;
 
                 int distanceToOrigin = distances[edge.from()] + edge.weight();
                 Recorder.addEdgeCompute(); // increases addEdgeCompute counter
@@ -53,8 +57,8 @@ public class SPFA implements SSSPAlgorithm {
 
                     distances[edge.to()] = distanceToOrigin; //updates distances
                     parent[edge.to()] = edge.from(); // updates parent
-                    if (!qContaines[edge.to()]) { // if element isn't on the list
-                        Recorder.addVertextMissing(); //increases AddVertexMissing counter
+                    if (!qcontaines[edge.to()]) { // if element isn't on the list
+                        Recorder.addEdgeMissing(); //increases AddEdgeMissing counter
 
                         // if SLF and if it is farther than the next element of the queue
                         if (!this._slf || !queue.isEmpty() && distances[edge.to()] >= distances[queue.getFirst()]) {
@@ -63,12 +67,12 @@ public class SPFA implements SSSPAlgorithm {
                             queue.addFirst(edge.to()); // adds it to the beginning of the queue
                         }
 
-                        qContaines[edge.to()]=true;
+                        qcontaines[edge.to()]=true;
                         updates[edge.to()]++; // increases number of updates
 
                         if (updates[edge.to()] >= graph.getNVertices()) { // found negative cycle
                             //initialise the cycle
-                            ArrayList<Integer> values = new ArrayList<>(graph.getNVertices() + 1);
+                            List<Integer> values = new ArrayList<>(graph.getNVertices() + 1);
                             int current = edge.from();
                             values.addLast(edge.to()); // adds first value
                             // going up the tree until conflict
@@ -88,7 +92,7 @@ public class SPFA implements SSSPAlgorithm {
                                     }
                                 }
                                 i++;
-                            } while (values.get(i).intValue() != current);
+                            } while (values.get(i) != current);
                             return new SSSPResult.NegativeCycle(values.subList(0, i + 1), length); // returns the negative cycle
                         }
                     }
