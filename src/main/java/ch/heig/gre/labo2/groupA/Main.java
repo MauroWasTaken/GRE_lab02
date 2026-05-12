@@ -40,12 +40,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Start Tests");
         //computeSPFA_test("data/reseau1.txt");
-        computeSPFA_test("data/reseau2.txt");
+        //computeSPFA_test("data/reseau2.txt");
         //computeSPFA_test("data/reseau3.txt");
         //computeSPFA_test("data/reseau4.txt");
         //computeSPFA_test("data/geneve.txt");
         //computeSPFA_test("data/geneve_big.txt");
-        //computeSPFA_test("data/geneve_big_neg.txt");
+        computeSPFA_test("data/geneve_big_neg.txt");
 
     }
 }

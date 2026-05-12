@@ -27,11 +27,11 @@ public class SPFA implements SSSPAlgorithm {
         int[] distances = new int[graph.getNVertices()];
         int[] parent = new int[graph.getNVertices()];
         int[] updates = new int[graph.getNVertices()];
+        boolean[] qContaines=new boolean[graph.getNVertices()];
         ArrayList<Integer> queue = new ArrayList<>(graph.getNVertices());
         for (int i = 0; i < graph.getNVertices(); i++) {
             distances[i] = Integer.MAX_VALUE;
             parent[i] = -1;
-            updates[i] = 0;
         }
         distances[from] = 0;
         queue.addLast(from);
@@ -40,7 +40,11 @@ public class SPFA implements SSSPAlgorithm {
         while (!queue.isEmpty()) {
             Recorder.addVertexFromFIFO(); // increases addVertexFromFIFO counter
 
-            for (WeightedDigraph.Edge edge : graph.getOutgoingEdges(queue.removeFirst())) {
+            int currentVertex = queue.removeFirst();
+            for (WeightedDigraph.Edge edge : graph.getOutgoingEdges(currentVertex)) {
+
+                qContaines[currentVertex]=false;
+
                 int distanceToOrigin = distances[edge.from()] + edge.weight();
                 Recorder.addEdgeCompute(); // increases addEdgeCompute counter
 
@@ -49,7 +53,7 @@ public class SPFA implements SSSPAlgorithm {
 
                     distances[edge.to()] = distanceToOrigin; //updates distances
                     parent[edge.to()] = edge.from(); // updates parent
-                    if (!queue.contains(edge.to())) { // if element isn't on the list
+                    if (!qContaines[edge.to()]) { // if element isn't on the list
                         Recorder.addVertextMissing(); //increases AddVertexMissing counter
 
                         // if SLF and if it is farther than the next element of the queue
@@ -58,7 +62,10 @@ public class SPFA implements SSSPAlgorithm {
                         } else {
                             queue.addFirst(edge.to()); // adds it to the beginning of the queue
                         }
+
+                        qContaines[edge.to()]=true;
                         updates[edge.to()]++; // increases number of updates
+
                         if (updates[edge.to()] >= graph.getNVertices()) { // found negative cycle
                             //initialise the cycle
                             ArrayList<Integer> values = new ArrayList<>(graph.getNVertices() + 1);
