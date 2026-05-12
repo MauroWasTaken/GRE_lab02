@@ -11,6 +11,7 @@ public class Main {
     public static final String DATA_PATH = "data/";
 
     public static void computeSPFA_test(String path) throws IOException {
+        final int from = 0;
         WeightedDigraph graph = WeightedDigraphReader.fromFile(path );
         System.out.println("File : "+path);
         // SPFA
@@ -39,9 +40,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Start Tests");
         //computeSPFA_test("data/reseau1.txt");
-        //computeSPFA_test("data/reseau2.txt");
+        computeSPFA_test("data/reseau2.txt");
         //computeSPFA_test("data/reseau3.txt");
-        computeSPFA_test("data/reseau4.txt");
+        //computeSPFA_test("data/reseau4.txt");
         //computeSPFA_test("data/geneve.txt");
         //computeSPFA_test("data/geneve_big.txt");
         //computeSPFA_test("data/geneve_big_neg.txt");
