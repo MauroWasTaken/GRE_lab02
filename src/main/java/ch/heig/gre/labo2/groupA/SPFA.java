@@ -66,23 +66,23 @@ public class SPFA implements SSSPAlgorithm {
                             values.addLast(edge.to()); // adds first value
                             // going up the tree until conflict
                             do {
-                                values.addLast(current);
+                                values.addFirst(current);
                                 current = parent[current];
                             } while (!values.contains(current));
-                            values.addLast(edge.to()); // adds last value
+                            values.addFirst(current); // adds last value
                             // compute the length
                             int length = 0; // init length
                             int i = 0;
                             do {
-                                for (WeightedDigraph.Edge e : graph.getOutgoingEdges(values.get(i + 1))) {
-                                    if (e.to() == values.get(i)) {
+                                for (WeightedDigraph.Edge e : graph.getOutgoingEdges(values.get(i))) {
+                                    if (e.to() == values.get(i + 1)) {
                                         length += e.weight();
                                         break;
                                     }
                                 }
                                 i++;
-                            } while (values.get(i).intValue() != values.getFirst().intValue());
-                            return new SSSPResult.NegativeCycle(values.subList(0, i + 1).reversed(), length); // returns the negative cycle
+                            } while (values.get(i).intValue() != current);
+                            return new SSSPResult.NegativeCycle(values.subList(0, i + 1), length); // returns the negative cycle
                         }
                     }
                 }
