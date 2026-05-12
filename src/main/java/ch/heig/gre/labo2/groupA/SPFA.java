@@ -11,6 +11,15 @@ import java.util.ArrayList;
  */
 public class SPFA implements SSSPAlgorithm {
 
+    private final boolean _slf;
+
+    SPFA(boolean sfl){
+        this._slf=sfl;
+    }
+
+    SPFA(){
+        this(false);
+    }
 
     @Override
     public SSSPResult compute(WeightedDigraph graph, int from) {
@@ -43,7 +52,12 @@ public class SPFA implements SSSPAlgorithm {
                     if (!queue.contains(edge.to())) { // if element isn't on the list
                         Recorder.addVertextMissing(); //increases AddVertexMissing counter
 
-                        queue.addLast(edge.to());  //adds it to the end of the list
+                        // if SLF and if it is farther than the next element of the queue
+                        if (!this._slf || !queue.isEmpty() && distances[edge.to()] >= distances[queue.getFirst()]) {
+                            queue.addLast(edge.to());   // adds it to the ends of the queue
+                        } else {
+                            queue.addFirst(edge.to()); // adds it to the beginning of the queue
+                        }
                         updates[edge.to()]++; // increases number of updates
                         if (updates[edge.to()] >= graph.getNVertices()) { // found negative cycle
                             //initialise the cycle

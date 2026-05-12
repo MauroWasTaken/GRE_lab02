@@ -26,7 +26,7 @@ public class Main {
         System.out.println(result);
 
         System.out.println("SPFA SLF");
-        SPFA_SLF slf = new SPFA_SLF();
+        SPFA slf = new SPFA(true);
         Recorder.start();                                       //start recording statistics
         result = slf.compute(graph, 0);
         out = Recorder.end();                                   //save statistics
@@ -39,8 +39,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Start Tests");
-        //computeSPFA_test("data/reseau1.txt");
-        computeSPFA_test("data/reseau2.txt");
+        computeSPFA_test("data/reseau1.txt");
+        //computeSPFA_test("data/reseau2.txt");
         //computeSPFA_test("data/reseau3.txt");
         //computeSPFA_test("data/reseau4.txt");
         //computeSPFA_test("data/geneve.txt");
